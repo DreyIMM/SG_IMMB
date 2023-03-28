@@ -1,0 +1,43 @@
+﻿@model Immb.App.ViewModels.UnidadeReligiosaViewModel
+
+@{
+    ViewData["Title"] = "Adicionar Unidade";
+}
+
+<div class="modal-header">
+    <h4 class="modal-title">@ViewData["Title"]</h4>
+    <button type="button" class="close" data-dismiss="modal">
+        <span aria-hidden="true">×</span><span class="sr-only">Fechar</span>
+    </button>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div class="modal-body">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Nome" class="control-label"></label>
+                    <input asp-for="Nome" class="form-control" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+               
+                <div class="form-group">
+                    <label asp-for="TipoUnidade" class="control-label">Unidade religiosa</label>
+                    <select asp-for="TipoUnidade" asp-items="Model.TiposUnidadesReligiosas">
+                    </select>
+
+                    <span asp-validation-for="TipoUnidadeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Criar" class="btn btn-primary" />
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
