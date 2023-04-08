@@ -28,6 +28,7 @@ namespace Immb.App.ViewModels
         public string Email { get; set; }
 
         [DisplayName("Data da Outorga")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime DataOutorga { get; set; }
 
         /* EF Relational */

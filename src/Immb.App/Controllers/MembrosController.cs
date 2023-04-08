@@ -8,6 +8,8 @@ using Immb.App.Data;
 using Immb.App.ViewModels;
 using Immb.Business.Interfaces;
 using AutoMapper;
+using Immb.Business.Models;
+using Immb.Data.Repository;
 
 namespace Immb.App.Controllers
 {
@@ -49,11 +51,16 @@ namespace Immb.App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MembroViewModel membroViewModel)
         {
+            membroViewModel = await PopularUnidades(membroViewModel);
+
             if (!ModelState.IsValid) return View(membroViewModel);
 
+            Membro membro = _mapper.Map<Membro>(membroViewModel);
 
-            
-            return View(membroViewModel);
+            await _membroRepository.Adicionar(membro);
+
+            return RedirectToAction("Index");
+
         }
 
         private async Task<MembroViewModel> PopularUnidades(MembroViewModel membro)
