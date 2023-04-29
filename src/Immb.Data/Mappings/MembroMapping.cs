@@ -30,6 +30,10 @@ namespace Immb.Data.Mappings
             builder.HasOne(m => m.Endereco)
                 .WithOne(e => e.Membro);
 
+            // 1: 1 => Membro : Unidade Religiosa
+            builder.HasOne(e => e.UnidadeReligiosa)
+                .WithMany(e => e.Membros);
+
 
             builder.ToTable("Membros");
 

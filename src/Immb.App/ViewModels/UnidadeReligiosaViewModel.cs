@@ -16,6 +16,8 @@ namespace Immb.App.ViewModels
 
         [Required(ErrorMessage = "O campo {0} é obrigatorio")]
         [StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 5)]
+
+        [DisplayName("Unidade religiosa")]
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatorio")]

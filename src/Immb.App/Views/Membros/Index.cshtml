@@ -1,59 +1,58 @@
-﻿@model IEnumerable<Immb.App.ViewModels.MembroViewModel>
+﻿@model Immb.App.ViewModels.MembroAndListaViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UnidadeReligiosaId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telefone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataOutorga)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnidadeReligiosaId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telefone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataOutorga)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row m-2">
+    <div class="col">
+        <h3>Lista de membros</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.membroViewModels.Nome)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.membroViewModels.Telefone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.membroViewModels.UnidadeReligiosa.Nome)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.membroViewModels.DataOutorga)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.membrosViewModels) {
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Telefone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UnidadeReligiosa.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DataOutorga)
+                        </td>
+                        <td>
+                            <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id"> <span class="fa fa-pen-to-square"></span>  </a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><span class="fa fa-trash"></span></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="m-2 col-4">
+        <partial name="_Create" model="Model.membroViewModels" />
+    </div>
+</div>

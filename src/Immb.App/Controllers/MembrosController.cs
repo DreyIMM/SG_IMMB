@@ -10,6 +10,7 @@ using Immb.Business.Interfaces;
 using AutoMapper;
 using Immb.Business.Models;
 using Immb.Data.Repository;
+using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace Immb.App.Controllers
 {
@@ -31,30 +32,42 @@ namespace Immb.App.Controllers
         // GET: Membros
         public async Task<IActionResult> Index()
         {
-            return View(_mapper.Map<IEnumerable<MembroViewModel>>(await _membroRepository.ObterTodos()));
+            var membroViewModel = new MembroAndListaViewModel();
+
+            membroViewModel.membrosViewModels = _mapper.Map<IEnumerable<MembroViewModel>>(await _membroRepository.ObterMembros());
+
+            membroViewModel.membroViewModels = await PopularUnidades(new MembroViewModel());
+            ViewBag.action = "Create";
+            ViewBag.nameButton = "Adicionar";
+
+            return View(membroViewModel);
         }
 
 
-        // GET: Membros/Create
-        [HttpGet]
-        public async Task<IActionResult> Create()
-        {
-            var membro = await PopularUnidades(new MembroViewModel());
-            
-            return View(membro);
-        }
+        
+        //[HttpGet]
+        //public async Task<IActionResult> Create()
+        //{
+        //    var membro = await PopularUnidades(new MembroViewModel());
+        //    //ViewBag.action = "Create";
+        //    return View(membro);
+        //}
 
-        // POST: Membros/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MembroViewModel membroViewModel)
         {
             membroViewModel = await PopularUnidades(membroViewModel);
 
-            if (!ModelState.IsValid) return View(membroViewModel);
+            if (!ModelState.IsValid)
+            {
+                var membroViewModelLista = new MembroAndListaViewModel();
+                membroViewModelLista.membroViewModels = membroViewModel;
+                membroViewModelLista.membrosViewModels = _mapper.Map<IEnumerable<MembroViewModel>>(await _membroRepository.ObterMembros());
 
+                return View("Index", membroViewModelLista);
+            }
             Membro membro = _mapper.Map<Membro>(membroViewModel);
 
             await _membroRepository.Adicionar(membro);
@@ -63,30 +76,79 @@ namespace Immb.App.Controllers
 
         }
 
+
+        // GET: Membros/Details/5
+        public async Task<IActionResult> Details(Guid id)
+        {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var membroResultado = _mapper.Map<MembroViewModel>(await _membroRepository.ObterPorId(id));
+           
+                var membroAndListaViewModel = new MembroAndListaViewModel();
+
+                membroAndListaViewModel.membrosViewModels = _mapper.Map<IEnumerable<MembroViewModel>>(await _membroRepository.ObterMembros());
+                membroAndListaViewModel.membroViewModels = await PopularUnidades(membroResultado);
+                membroAndListaViewModel.membroViewModels.Inclusao = false;
+
+                ViewBag.nameButton = "Atualizar";
+                ViewBag.action = "Edit";
+
+                if (membroAndListaViewModel == null)
+                {
+                    return NotFound();
+                }
+
+                return View("Index", membroAndListaViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Guid id, MembroViewModel membroViewModelAtualizado)
+        {
+            if (id != membroViewModelAtualizado.Id) return NotFound();
+
+            var membroBanco = (await _membroRepository.ObterPorId(id));
+
+            membroBanco.DataOutorga = membroViewModelAtualizado.DataOutorga;
+            membroBanco.Email = membroViewModelAtualizado.Email;
+            membroBanco.Nome = membroViewModelAtualizado.Nome;
+            membroBanco.UnidadeReligiosaId = membroViewModelAtualizado.UnidadeReligiosaId;
+            membroBanco.Telefone = membroViewModelAtualizado.Telefone;
+
+            await _membroRepository.Atualizar(membroBanco);
+
+            return RedirectToAction("Index"); 
+        }
+
+
+
+
+
         private async Task<MembroViewModel> PopularUnidades(MembroViewModel membro)
         {
             membro.Unidades = _mapper.Map<IEnumerable<UnidadeReligiosaViewModel>>(await _unidadeReligiosa.ObterTodos());
             return membro;
         }
 
-        /*
-        // GET: Membros/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        
+
+        // POST: Membros/Delete/5
+        public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            await _membroRepository.Remover(id);
 
-            var membroViewModel = await _context.MembroViewModel
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (membroViewModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(membroViewModel);
+            return RedirectToAction("Index");
         }
+
+  
+
+
+
+        /*
+
 
 
         // GET: Membros/Edit/5
@@ -105,40 +167,8 @@ namespace Immb.App.Controllers
             return View(membroViewModel);
         }
 
-        // POST: Membros/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,UnidadeReligiosaId,Nome,Telefone,Email,DataOutorga")] MembroViewModel membroViewModel)
-        {
-            if (id != membroViewModel.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(membroViewModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MembroViewModelExists(membroViewModel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(membroViewModel);
-        }
+       
+       
 
         // GET: Membros/Delete/5
         public async Task<IActionResult> Delete(Guid? id)

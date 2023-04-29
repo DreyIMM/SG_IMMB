@@ -23,7 +23,7 @@ namespace Immb.Data.Repository
 
         public async Task<IEnumerable<TEntity>> Buscar(Expression<Func<TEntity, bool>> predicate)
         {
-            //Implementar futuramente
+            //Implementar futuramente 
             return await DbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
 

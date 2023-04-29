@@ -8,6 +8,7 @@ namespace Immb.Business.Interfaces
 {
     public interface IMembroRepository : IRepository<Membro>
     {
+       Task<List<Membro>> ObterMembros();
        Task<Membro> ObterMembroPorUnidade(Guid id);
        Task<Membro> ObterMembroEndereco(Guid id);
 

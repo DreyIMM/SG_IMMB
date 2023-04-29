@@ -28,11 +28,13 @@ namespace Immb.App.ViewModels
         public string Email { get; set; }
 
         [DisplayName("Data da Outorga")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataOutorga { get; set; }
 
+        public bool Inclusao { get; set; } = true;
+
         /* EF Relational */
-        public UnidadeReligiosaViewModel UnidadeReligiosaViewModel { get; set; }
+        public UnidadeReligiosaViewModel UnidadeReligiosa { get; set; }
 
         public IEnumerable<UnidadeReligiosaViewModel> Unidades { get; set; }
 

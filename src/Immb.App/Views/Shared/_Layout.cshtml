@@ -16,6 +16,9 @@
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+
 </head>
 <body>
     <header>
@@ -43,7 +46,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @RenderBody()
@@ -52,7 +55,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - Immb.App - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 - Gerenciamento da igreja - <a asp-area="" asp-controller="Home" asp-action="Privacy">Regras</a>
         </div>
     </footer>
 
