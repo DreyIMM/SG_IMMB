@@ -29,7 +29,8 @@ namespace Immb.App.ViewModels
 
         [DisplayName("Data da Outorga")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime DataOutorga { get; set; }
+        [Required]
+        public DateTime? DataOutorga { get; set; }
 
         public bool Inclusao { get; set; } = true;
 

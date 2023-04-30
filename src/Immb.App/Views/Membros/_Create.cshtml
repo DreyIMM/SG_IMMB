@@ -36,7 +36,7 @@
 
             <div class="form-group">
                 <label asp-for="DataOutorga" class="control-label"></label>
-                <input  asp-for="DataOutorga" type="datetime"  class="form-control">
+                <input asp-for="DataOutorga" type="date" class="form-control" value="@Model.DataOutorga?.ToString("yyyy-MM-dd")">
                 <span asp-validation-for="DataOutorga" class="text-danger"></span>
             </div>
             <div class="form-group">

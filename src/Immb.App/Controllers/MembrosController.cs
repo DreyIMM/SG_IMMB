@@ -86,7 +86,6 @@ namespace Immb.App.Controllers
                 }
 
                 var membroResultado = _mapper.Map<MembroViewModel>(await _membroRepository.ObterPorId(id));
-           
                 var membroAndListaViewModel = new MembroAndListaViewModel();
 
                 membroAndListaViewModel.membrosViewModels = _mapper.Map<IEnumerable<MembroViewModel>>(await _membroRepository.ObterMembros());
@@ -112,7 +111,7 @@ namespace Immb.App.Controllers
 
             var membroBanco = (await _membroRepository.ObterPorId(id));
 
-            membroBanco.DataOutorga = membroViewModelAtualizado.DataOutorga;
+            membroBanco.DataOutorga = (DateTime)membroViewModelAtualizado.DataOutorga;
             membroBanco.Email = membroViewModelAtualizado.Email;
             membroBanco.Nome = membroViewModelAtualizado.Nome;
             membroBanco.UnidadeReligiosaId = membroViewModelAtualizado.UnidadeReligiosaId;
