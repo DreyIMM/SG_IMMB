@@ -17,6 +17,9 @@ namespace Immb.Data.Context
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<UnidadeReligiosa> UnidadesReligiosas { get; set; }
         public DbSet<Membro> Membros { get; set; }
+        public DbSet<Religiosidade> Religiosidades { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

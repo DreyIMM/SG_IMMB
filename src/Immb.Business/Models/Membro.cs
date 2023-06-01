@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 namespace Immb.Business.Models
 {
@@ -14,6 +14,7 @@ namespace Immb.Business.Models
 
         /* EF Relational */
         public UnidadeReligiosa UnidadeReligiosa { get; set; }
+        public IEnumerable<Religiosidade> Religiosidade { get; set; }
 
 
     }

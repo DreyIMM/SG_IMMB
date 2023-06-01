@@ -11,6 +11,7 @@ using AutoMapper;
 using Immb.Business.Models;
 using Immb.Data.Repository;
 using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
+using System.Diagnostics;
 
 namespace Immb.App.Controllers
 {
@@ -85,7 +86,14 @@ namespace Immb.App.Controllers
                     return NotFound();
                 }
 
+                Stopwatch stopwatch = Stopwatch.StartNew();
                 var membroResultado = _mapper.Map<MembroViewModel>(await _membroRepository.ObterPorId(id));
+                stopwatch.Stop();
+
+                TimeSpan total = stopwatch.Elapsed;
+
+               Console.Write("Tempo da consulta", total.TotalMilliseconds);
+                
                 var membroAndListaViewModel = new MembroAndListaViewModel();
 
                 membroAndListaViewModel.membrosViewModels = _mapper.Map<IEnumerable<MembroViewModel>>(await _membroRepository.ObterMembros());
